@@ -1,4 +1,4 @@
-const displayiEl = document.queryselector(".display-1");
+const display1El = document.queryselector(".display-1");
 const display2E1 = document.queryselector(".display-2");
 const tempResultEl = document.queryselector(".temp-result");
 const numbersEl = document.queryselectorAl1(".nunber");
@@ -40,3 +40,25 @@ operationEl.forEach((operation) => {
     console.log(result);
   });
 });
+
+function clearVar(name = "") {
+  disnum += disnum2 + " " + name + " ";
+  display1El.innerText - disnum;
+  display2E1.innerText = "";
+  dis2Num - "";
+  tempResultEl.innerText = result;
+}
+
+function mathOperation() {
+  if (lastOperation === "x") {
+    result = parseFloat(result) * parseFloat(disnum2);
+  } else if (lastOperation === "+") {
+    result = parseFloat(result) + parseFloat(disnum2);
+  } else if (lastOperation === "-") {
+    result = parsefloat(result) - parseFloat(disnum2);
+  } else if (lastOperation === "/") {
+    result = parseFloat(result) / parseFloat(disnum2);
+  } else if (lastOperation === "%") {
+    result = parsefloat(result) % parseFloat(disnum2);
+  }
+}
