@@ -1,64 +1,86 @@
-const display1El = document.queryselector(".display-1");
-const display2E1 = document.queryselector(".display-2");
-const tempResultEl = document.queryselector(".temp-result");
-const numbersEl = document.queryselectorAl1(".nunber");
-const operationEl = document.querySelectorAll(".operation");
-const equalEl = document.queryselectorAll(".equal");
-const clearallE1 = document.queryselector(".all-clear");
-const cleartastEl = document.querySelector(".last-entity-clear");
+const botonNumeros = document.getElementsByName("data-number");
+const botonOpera = document.getElementsByName("data-opera");
+const botonigual = document.getElementsByName("data-igual")[0];
+const botonDelete = document.getElementsByName("data-delete")[0];
+var result = document.getElementById("result");
+var opeActual = "";
+var opeAnterior = "";
+var operacion = undefined;
 
-let disnum = "";
-let disnum2 = "";
-let result = null;
-let lastOperation = "";
-let haveDot = false;
-
-numbersEl.foreach((number) => {
-  number.addEventListener("click", (e) => {
-    if (e.target.innerText === "." && !haveDot) {
-      haveDot = true;
-    } else if (e.target.innerText === ".." && !haveDot) {
-      return;
-    }
-    disnum2 += e.target.innerText;
-    display2E1.innerText = disnum2;
+botonNumeros.forEach(function (boton) {
+  boton.addEventListener("click", function () {
+    agregarNumero(boton.innerText);
   });
 });
 
-operationEl.forEach((operation) => {
-  operation.addEventListener("click", (e) => {
-    if (!disnum2) return;
-    haveDot = true;
-    const operationName = e.target.innerText;
-    if (disnum && disnum2 && lastOperation) {
-      mathOperation();
-    } else {
-      result = parseFloat(disnum2);
-    }
-    clearVar(operationName);
-    lastOperation - operationName;
-    console.log(result);
+botonOpera.forEach(function (boton) {
+  boton.addEventListener("click", function () {
+    SelectOperacion(boton.innerText);
   });
 });
 
-function clearVar(name = "") {
-  disnum += disnum2 + " " + name + " ";
-  display1El.innerText - disnum;
-  display2E1.innerText = "";
-  dis2Num - "";
-  tempResultEl.innerText = result;
-}
+botonigual.addEventListener("click", function () {
+  calcular();
+  actualizarDisplay();
+});
 
-function mathOperation() {
-  if (lastOperation === "x") {
-    result = parseFloat(result) * parseFloat(disnum2);
-  } else if (lastOperation === "+") {
-    result = parseFloat(result) + parseFloat(disnum2);
-  } else if (lastOperation === "-") {
-    result = parsefloat(result) - parseFloat(disnum2);
-  } else if (lastOperation === "/") {
-    result = parseFloat(result) / parseFloat(disnum2);
-  } else if (lastOperation === "%") {
-    result = parsefloat(result) % parseFloat(disnum2);
+botonDelete.addEventListener("click", function () {
+  clear();
+  actualizarDisplay();
+});
+
+function SelectOperacion(op) {
+  if (opeActual == "") return;
+  if (opeAnterior !== "") {
+    calcular();
   }
+  operacion = op.toString();
+  opeAnterior = opeActual;
+  opeActual = "";
 }
+
+function calcular() {
+  var calculo;
+  const anterior = parseFloat(opeAnterior);
+  const actual = parseFloat(opeActual);
+
+  if (isNaN(anterior) || isNaN(actual)) return;
+
+  switch (operacion) {
+    case "+":
+      calculo = anterior + actual;
+      break;
+    case "-":
+      calculo = anterior - actual;
+      break;
+    case "X":
+      calculo = anterior * actual;
+      break;
+    case "/":
+      calculo = anterior / actual;
+      break;
+    default:
+      return;
+  }
+
+  opeActual = calculo;
+  operacion = undefined;
+  opeAnterior = "";
+}
+
+function agregarNumero(num) {
+  opeActual = opeActual.toString() + num.toString();
+  actualizarDisplay();
+}
+
+function actualizarDisplay() {
+  result.value = opeActual;
+}
+
+function clear() {
+  opeActual = "";
+  opeAnterior = "";
+  operacion = undefined;
+}
+
+clear();
